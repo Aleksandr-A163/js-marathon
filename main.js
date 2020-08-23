@@ -1,4 +1,5 @@
 const $btn = document.getElementById('btn-kick');
+const $btn_enemy = document.getElementById('btn-kick-enemy');
 
 const character = {
     name:'Pikachu',
@@ -24,6 +25,13 @@ $btn.addEventListener('click', function () {
 
 });
 
+$btn_enemy.addEventListener('click', function () {
+    console.log('Kick enemy');
+    console.log(random(35)); 
+    changeHP (random(35), enemy);
+
+});
+
 function init() {
     console.log('Start Game!');
     renderHP(character);
@@ -34,6 +42,7 @@ function renderHP(person) {
     renderHPLife(person);
     renderProgressbarHP(person);
 }
+
 function renderHPLife(person) {
     person.elHP.innerText = person.damageHP + ' / ' + person.defaultHP;
 }
@@ -47,6 +56,7 @@ function changeHP(count, person) {
         person.damageHP = 0;
         alert('Бедный ' + person.name + ' проиграл!');
         $btn.disabled = true;
+        $btn_enemy.disabled = true;
     } else {
         person.damageHP -= count;
     }
