@@ -88,8 +88,8 @@ body {
 .pokemon {
     text-align: center;
     position: relative;
-    width: 240px;
-    height: 260px;
+    width: 250px;
+    height: 250px;
     min-width: 150px;
     margin: 20px;
     background-image: url(./assets/card.svg);
@@ -169,7 +169,7 @@ body {
     font-size: 20px;
     font-weight: 400;
     color: #222;
-    margin: 4px 0;
+    margin: 2px 0;
     display: inline-block;
 }
 .pokemon .details .hp {
@@ -179,8 +179,8 @@ body {
 .pokemon .details .hp .text {
     color: #666;
     display: inline-block;
-    padding-top: 4px;
-    font-size: 14px;
+    padding-top: 2px;
+    font-size: 12px;
 }
 .pokemon .details .hp .bar {
     border-radius: 50px;
