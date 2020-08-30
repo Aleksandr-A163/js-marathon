@@ -34,13 +34,16 @@ const enemy = {
 
 function buttonClick(){
     let push = 0;
+    const $div = document.createElement('div');
+    const $damage_details1 = document.querySelector('#damage_details1');
 
     return function (){
-        if (push>5) {
+        if (push>8) {
             $btn.disabled = true;
             $btn_enemy.disabled = true;  
         }
-      return push +=0.5;
+        $div.innerText = `${push}`;
+        return ++push;
        
 
     }
@@ -54,13 +57,12 @@ const second = bash;
 $btn.addEventListener('click', () => {
     character.changeHP(random(20));
     enemy.changeHP(random(20));
-    bash();
     $getElById('btn-kick').innerHTML = bash();
 });
 
+
 $btn_enemy.addEventListener('click', function () {
     enemy.changeHP(random(35));
-    second();
     $getElById('btn-kick-enemy').innerHTML = second();
 });
 
