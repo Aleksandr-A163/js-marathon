@@ -36,11 +36,11 @@ function buttonClick(){
     let push = 0;
 
     return function (){
-        if (push>10) {
+        if (push>5) {
             $btn.disabled = true;
             $btn_enemy.disabled = true;  
         }
-       return push++;
+      return push +=0.5;
        
 
     }
@@ -48,7 +48,7 @@ function buttonClick(){
 
 
 const bash = buttonClick();
-
+const second = bash;
 
 
 $btn.addEventListener('click', () => {
@@ -58,13 +58,9 @@ $btn.addEventListener('click', () => {
     $getElById('btn-kick').innerHTML = bash();
 });
 
-const second = buttonClick();
-
-
 $btn_enemy.addEventListener('click', function () {
     enemy.changeHP(random(35));
     second();
-
     $getElById('btn-kick-enemy').innerHTML = second();
 });
 
