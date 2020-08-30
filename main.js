@@ -34,20 +34,17 @@ const enemy = {
 
 function buttonClick(){
     let push = 0;
-    const $div = document.createElement('div');
-    const $damage_details1 = document.querySelector('#damage_details1');
-
     return function (){
-        if (push>8) {
+        if (bash, push>8) {
             $btn.disabled = true;
+        }
+        if (second, push>3) {
             $btn_enemy.disabled = true;  
         }
-        $div.innerText = `${push}`;
         return ++push;
-       
-
     }
 }
+
 
 
 const bash = buttonClick();
