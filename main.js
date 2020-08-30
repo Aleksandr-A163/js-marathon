@@ -31,22 +31,42 @@ const enemy = {
     changeHP: changeHP
 }
 
+function buttonClick(){
+    let push = 1;
+    return function (){
+        push++;
+    }
+}
+
+// function quantityClicks(){
+//     let
+//     return function (){
+
+//     }
+// }
+
+const bash = buttonClick();
+// const quantity = quantityClicks();
 
 
-$btn.addEventListener('click', function () {
-    console.log('Kick');
-    console.log(random(20)); 
+$btn.addEventListener('click', () => {
     character.changeHP(random(20));
     enemy.changeHP(random(20));
-
+    bash();
+    // quantity();
+    getElById('btn-kick').innerHTML = thunder();
 });
+
+const second = buttonClick();
+// const quantity1 = quantityClicks();
 
 $btn_enemy.addEventListener('click', function () {
-    console.log('Kick enemy');
-    console.log(random(35)); 
     enemy.changeHP(random(35));
-
+    second();
+    // quantity1();
+    getElById('btn-kick').innerHTML = second();
 });
+
 
 function init() {
     alert('Start Game!');
@@ -99,7 +119,7 @@ function params() {
     return `[${damageHP}/${defaultHP}]`;
 }
 
-function generateLog(firstPerson, secondPerson,count) {
+function generateLog(firstPerson, secondPerson, count) {
 
     const logs = [
         `${firstPerson.name} вспомнил что-то важное, но неожиданно ${secondPerson.name}, не помня себя от испуга, ударил в предплечье врага. ${count} урона ${params()}`,
