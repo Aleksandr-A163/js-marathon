@@ -32,39 +32,34 @@ const enemy = {
 }
 
 function buttonClick(){
-    let push = 1;
+    let push = 0;
+
     return function (){
-        push++;
+       return push++;
+
     }
 }
 
-// function quantityClicks(){
-//     let
-//     return function (){
-
-//     }
-// }
 
 const bash = buttonClick();
-// const quantity = quantityClicks();
+
 
 
 $btn.addEventListener('click', () => {
     character.changeHP(random(20));
     enemy.changeHP(random(20));
     bash();
-    // quantity();
-    getElById('btn-kick').innerHTML = thunder();
+    $getElById('btn-kick').innerHTML = `Обоюдный удар был нанесен ${$btn.bash}`
 });
 
 const second = buttonClick();
-// const quantity1 = quantityClicks();
+
 
 $btn_enemy.addEventListener('click', function () {
     enemy.changeHP(random(35));
     second();
-    // quantity1();
-    getElById('btn-kick').innerHTML = second();
+
+    $getElById('btn-kick-enemy').innerHTML = second();
 });
 
 
