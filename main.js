@@ -31,11 +31,17 @@ const enemy = {
     changeHP: changeHP
 }
 
+
 function buttonClick(){
     let push = 0;
 
     return function (){
+        if (push>10) {
+            $btn.disabled = true;
+            $btn_enemy.disabled = true;  
+        }
        return push++;
+       
 
     }
 }
@@ -49,7 +55,7 @@ $btn.addEventListener('click', () => {
     character.changeHP(random(20));
     enemy.changeHP(random(20));
     bash();
-    $getElById('btn-kick').innerHTML = `Обоюдный удар был нанесен ${$btn.bash}`
+    $getElById('btn-kick').innerHTML = bash();
 });
 
 const second = buttonClick();
