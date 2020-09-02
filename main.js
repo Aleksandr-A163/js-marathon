@@ -56,43 +56,6 @@ function buttonClick(count = 7, button) {
     }
 }
 
-function renderHP() {
-    this.renderHPLife();
-    this.renderProgressbarHP();
-}
-
- function renderHPLife() {
-    const { elHP, hp: { current, total } } = this;
-
-    elHP.innerText = current + ' / ' + total;
-}
-
- function renderProgressbarHP() {
-    const { hp: { current, total }, elProgressbar } = this;
-    const procent = current / (total / 100);
-    elProgressbar.style.width = procent + '%';
-}
-
-function changeHP(count) {
-    this.hp.current -= count;
-    const log = this === player2 ? generateLog(this, player1, count) : generateLog(this, player2, count);
-        const $p = document.createElement('p');
-        const $logs = document.querySelector('#logs');
-    
-        $p.innerText = `${log}`;
-    
-        $logs.insertBefore($p, $logs.children[0]);
-    
-    if (this.hp.current <= 0) {
-        this.hp.current = 0;
-        $p.innerText = 'Бедный ' + this.name + ' проиграл!';
-        $btn.disabled = true;
-        $btn_enemy.disabled = true;
-
-    }
-    
-    this.renderHP();
-}
 
 function generateLog(player1, player2, count) {
     const { name, hp: { current, total } } = player1;
