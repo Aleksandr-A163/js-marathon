@@ -276,6 +276,7 @@ body {
     outline: none !important;
     cursor: pointer;
     font-size: 18px;
+    margin: 15px;
 
 }
 .button:after {

@@ -1,3 +1,16 @@
+import Pokemon from "./pokemon.js";
+import random from "./utils.js"
+
+const player1 = new Pokemon({
+    name: 'Pikachu',
+    type: 'electric',
+    hp: 500,
+    selectors: 'character',
+})
+
+console.log(player1);
+
+
 function $getElById(id) {
     return document.getElementById(id);
 }
@@ -5,19 +18,9 @@ function $getElById(id) {
 
 
 const $btn = $getElById('btn-kick');
+const $damage_details1 = $getElById('damage_details1');
 const $btn_enemy = $getElById('btn-kick-enemy');
 
-const character = {
-    name:'Pikachu',
-    defaultHP: 100,
-    damageHP: 100,
-    elHP: $getElById('health-character'),
-    elProgressbar: $getElById('progressbar-character'),
-    renderHPLife: renderHPLife,
-    renderProgressbarHP: renderProgressbarHP,
-    renderHP: renderHP,
-    changeHP: changeHP
-}
 
 const enemy = {
     name:'Charmander',
@@ -31,42 +34,34 @@ const enemy = {
     changeHP: changeHP
 }
 
-function buttonClick(){
-    let push = 1;
-    return function (){
-        push++;
-    }
-}
 
-// function quantityClicks(){
-//     let
-//     return function (){
-
-//     }
-// }
-
-const bash = buttonClick();
-// const quantity = quantityClicks();
+const bash = buttonClick(7, $btn);
+const second = buttonClick(5, $btn_enemy);
 
 
 $btn.addEventListener('click', () => {
-    character.changeHP(random(20));
-    enemy.changeHP(random(20));
     bash();
-    // quantity();
-    getElById('btn-kick').innerHTML = thunder();
+    character.changeHP(random(60, 20));
+    enemy.changeHP(random(60, 20));
 });
 
-const second = buttonClick();
-// const quantity1 = quantityClicks();
 
 $btn_enemy.addEventListener('click', function () {
     enemy.changeHP(random(35));
     second();
-    // quantity1();
-    getElById('btn-kick').innerHTML = second();
 });
 
+function buttonClick(count = 7, button) {
+    const innerHTML = button.innerHTML;
+    button.innerText = `${innerHTML} (${count})`;
+    return function (){
+        count--;
+        if (count === 0) {
+            button.disabled = true;
+        }
+        button.innerHTML = `${innerHTML} (${count});`
+    }
+}
 
 function init() {
     alert('Start Game!');
@@ -74,19 +69,7 @@ function init() {
     enemy.renderHP();
 }
 
-function renderHP() {
-    this.renderHPLife();
-    this.renderProgressbarHP();
-}
 
-function renderHPLife() {
-    console.log(this.elHP.innerText);
-    this.elHP.innerText = this.damageHP + ' / ' + this.defaultHP;
-}
-
-function renderProgressbarHP() {
-    this.elProgressbar.style.width = this.damageHP + '%';
-}
 
 function changeHP(count) {
     this.damageHP -= count;
@@ -111,9 +94,7 @@ function changeHP(count) {
     this.renderHP();
 }
 
-function random(num) {
-    return Math.ceil(Math.random() * num);
-}
+
 function params() {
     const {defaultHP, damageHP} = character;
     return `[${damageHP}/${defaultHP}]`;
