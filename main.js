@@ -32,21 +32,37 @@ const enemy = {
 }
 
 
+function buttonClick(){
+    let push = 0;
+    return function (){
+        if (bash, push>8) {
+            $btn.disabled = true;
+        }
+        if (second, push>3) {
+            $btn_enemy.disabled = true;  
+        }
+        return ++push;
+    }
+}
 
-$btn.addEventListener('click', function () {
-    console.log('Kick');
-    console.log(random(20)); 
+
+
+const bash = buttonClick();
+const second = bash;
+
+
+$btn.addEventListener('click', () => {
     character.changeHP(random(20));
     enemy.changeHP(random(20));
-
+    $getElById('btn-kick').innerHTML = bash();
 });
+
 
 $btn_enemy.addEventListener('click', function () {
-    console.log('Kick enemy');
-    console.log(random(35)); 
     enemy.changeHP(random(35));
-
+    $getElById('btn-kick-enemy').innerHTML = second();
 });
+
 
 function init() {
     alert('Start Game!');
@@ -71,7 +87,7 @@ function renderProgressbarHP() {
 function changeHP(count) {
     this.damageHP -= count;
 
-    const log = this === enemy ? generateLog(count, character) : generateLog(count, enemy);
+    const log = this === enemy ? generateLog(this, character, count) : generateLog(this, enemy, count);
     console.log(log);
         const $p = document.createElement('p');
         const $logs = document.querySelector('#logs');
@@ -96,24 +112,22 @@ function random(num) {
 }
 function params() {
     const {defaultHP, damageHP} = character;
-    return `${damageHP}/${defaultHP}`;
+    return `[${damageHP}/${defaultHP}]`;
 }
 
-function generateLog(count) {
-    const { name } = character;
-    const { name: nameEnemy } = enemy;
+function generateLog(firstPerson, secondPerson, count) {
 
     const logs = [
-        `${name} вспомнил что-то важное, но неожиданно ${nameEnemy}, не помня себя от испуга, ударил в предплечье врага. ${count} урона ${params()}`,
-        `${name} забылся, но в это время наглый ${nameEnemy}, приняв волевое решение, неслышно подойдя сзади, ударил. ${count} урона ${params()}`,
-        `${name} пришел в себя, но неожиданно ${nameEnemy} случайно нанес мощнейший удар. ${count} урона ${params()}`,
-        `${name} поперхнулся, и за это ${nameEnemy} с испугу приложил прямой удар коленом в лоб врага. ${count} урона ${params()}`,
-        `${name} поперхнулся, но в это время ${nameEnemy} нехотя раздробил кулаком \<вырезанно цензурой\> противника. ${count} урона ${params()}`,
-        `${name} удивился, а ${nameEnemy} пошатнувшись влепил подлый удар. ${count} урона ${params()}`,
-        `${name} высморкался, но неожиданно ${nameEnemy} провел дробящий удар. ${count} урона ${params()}`,
-        `${name} пошатнулся, и внезапно наглый ${nameEnemy} беспричинно ударил в ногу противника. ${count} урона ${params()}`,
-        `${name} расстроился, как вдруг, неожиданно ${nameEnemy} случайно влепил стопой в живот соперника. ${count} урона ${params()}`,
-        `${name} пытался что-то сказать, но вдруг, неожиданно ${nameEnemy} со скуки, разбил бровь сопернику. ${count} урона ${params()}`
+        `${firstPerson.name} вспомнил что-то важное, но неожиданно ${secondPerson.name}, не помня себя от испуга, ударил в предплечье врага. ${count} урона ${params()}`,
+        `${firstPerson.name} забылся, но в это время наглый ${secondPerson.name}, приняв волевое решение, неслышно подойдя сзади, ударил. ${count} урона ${params()}`,
+        `${firstPerson.name} пришел в себя, но неожиданно ${secondPerson.name} случайно нанес мощнейший удар. ${count} урона ${params()}`,
+        `${firstPerson.name} поперхнулся, и за это ${secondPerson.name} с испугу приложил прямой удар коленом в лоб врага. ${count} урона ${params()}`,
+        `${firstPerson.name} поперхнулся, но в это время ${secondPerson.name} нехотя раздробил кулаком \<вырезанно цензурой\> противника. ${count} урона ${params()}`,
+        `${firstPerson.name} удивился, а ${secondPerson.name} пошатнувшись влепил подлый удар. ${count} урона ${params()}`,
+        `${firstPerson.name} высморкался, но неожиданно ${secondPerson.name} провел дробящий удар. ${count} урона ${params()}`,
+        `${firstPerson.name} пошатнулся, и внезапно наглый ${secondPerson.name} беспричинно ударил в ногу противника. ${count} урона ${params()}`,
+        `${firstPerson.name} расстроился, как вдруг, неожиданно ${secondPerson.name} случайно влепил стопой в живот соперника. ${count} урона ${params()}`,
+        `${firstPerson.name} пытался что-то сказать, но вдруг, неожиданно ${secondPerson.name} со скуки, разбил бровь сопернику. ${count} урона ${params()}`
     ];
 
     return logs [random(logs.length) -1];
