@@ -8,31 +8,20 @@ const player1 = new Pokemon({
     selectors: 'character',
 })
 
-console.log(player1);
+const player2 = new Pokemon({
+    name: 'Charmander',
+    type: 'fire',
+    hp: 450,
+    selectors: 'enemy',
+})
 
 
 function $getElById(id) {
     return document.getElementById(id);
 }
 
-
-
 const $btn = $getElById('btn-kick');
-const $damage_details1 = $getElById('damage_details1');
 const $btn_enemy = $getElById('btn-kick-enemy');
-
-
-const enemy = {
-    name:'Charmander',
-    defaultHP: 100,
-    damageHP: 100,
-    elHP: $getElById('health-enemy'),
-    elProgressbar: $getElById('progressbar-enemy'),
-    renderHPLife: renderHPLife,
-    renderProgressbarHP: renderProgressbarHP,
-    renderHP: renderHP,
-    changeHP: changeHP
-}
 
 
 const bash = buttonClick(7, $btn);
@@ -41,13 +30,17 @@ const second = buttonClick(5, $btn_enemy);
 
 $btn.addEventListener('click', () => {
     bash();
-    character.changeHP(random(60, 20));
-    enemy.changeHP(random(60, 20));
+    player1.changeHP(random(60, 20), function (count) {
+        console.log('Some change after change HP', count);
+        console.log(generateLog(player1, player2, count));
+    });
+    player2.changeHP(random(60, 20));
 });
 
 
 $btn_enemy.addEventListener('click', function () {
-    enemy.changeHP(random(35));
+    player1.changeHP(random(60, 20));
+    player2.changeHP(random(35));
     second();
 });
 
@@ -63,19 +56,26 @@ function buttonClick(count = 7, button) {
     }
 }
 
-function init() {
-    alert('Start Game!');
-    character.renderHP();
-    enemy.renderHP();
+function renderHP() {
+    this.renderHPLife();
+    this.renderProgressbarHP();
 }
 
+ function renderHPLife() {
+    const { elHP, hp: { current, total } } = this;
 
+    elHP.innerText = current + ' / ' + total;
+}
+
+ function renderProgressbarHP() {
+    const { hp: { current, total }, elProgressbar } = this;
+    const procent = current / (total / 100);
+    elProgressbar.style.width = procent + '%';
+}
 
 function changeHP(count) {
-    this.damageHP -= count;
-
-    const log = this === enemy ? generateLog(this, character, count) : generateLog(this, enemy, count);
-    console.log(log);
+    this.hp.current -= count;
+    const log = this === player2 ? generateLog(this, player1, count) : generateLog(this, player2, count);
         const $p = document.createElement('p');
         const $logs = document.querySelector('#logs');
     
@@ -83,39 +83,33 @@ function changeHP(count) {
     
         $logs.insertBefore($p, $logs.children[0]);
     
-    if (this.damageHP <= 0) {
-        this.damageHP = 0;
+    if (this.hp.current <= 0) {
+        this.hp.current = 0;
         $p.innerText = 'Бедный ' + this.name + ' проиграл!';
         $btn.disabled = true;
         $btn_enemy.disabled = true;
 
     }
-
+    
     this.renderHP();
 }
 
-
-function params() {
-    const {defaultHP, damageHP} = character;
-    return `[${damageHP}/${defaultHP}]`;
-}
-
-function generateLog(firstPerson, secondPerson, count) {
+function generateLog(player1, player2, count) {
+    const { name, hp: { current, total } } = player1;
+    const { name: enemyName } = player2;
 
     const logs = [
-        `${firstPerson.name} вспомнил что-то важное, но неожиданно ${secondPerson.name}, не помня себя от испуга, ударил в предплечье врага. ${count} урона ${params()}`,
-        `${firstPerson.name} забылся, но в это время наглый ${secondPerson.name}, приняв волевое решение, неслышно подойдя сзади, ударил. ${count} урона ${params()}`,
-        `${firstPerson.name} пришел в себя, но неожиданно ${secondPerson.name} случайно нанес мощнейший удар. ${count} урона ${params()}`,
-        `${firstPerson.name} поперхнулся, и за это ${secondPerson.name} с испугу приложил прямой удар коленом в лоб врага. ${count} урона ${params()}`,
-        `${firstPerson.name} поперхнулся, но в это время ${secondPerson.name} нехотя раздробил кулаком \<вырезанно цензурой\> противника. ${count} урона ${params()}`,
-        `${firstPerson.name} удивился, а ${secondPerson.name} пошатнувшись влепил подлый удар. ${count} урона ${params()}`,
-        `${firstPerson.name} высморкался, но неожиданно ${secondPerson.name} провел дробящий удар. ${count} урона ${params()}`,
-        `${firstPerson.name} пошатнулся, и внезапно наглый ${secondPerson.name} беспричинно ударил в ногу противника. ${count} урона ${params()}`,
-        `${firstPerson.name} расстроился, как вдруг, неожиданно ${secondPerson.name} случайно влепил стопой в живот соперника. ${count} урона ${params()}`,
-        `${firstPerson.name} пытался что-то сказать, но вдруг, неожиданно ${secondPerson.name} со скуки, разбил бровь сопернику. ${count} урона ${params()}`
+        `${name} вспомнил что-то важное, но неожиданно ${enemyName}, не помня себя от испуга, ударил в предплечье врага. ${count} урона [${current}/${total}]`,
+        `${name} забылся, но в это время наглый ${enemyName}, приняв волевое решение, неслышно подойдя сзади, ударил. ${count} урона [${current}/${total}]`,
+        `${name} пришел в себя, но неожиданно ${enemyName} случайно нанес мощнейший удар. ${count} урона [${current}/${total}]`,
+        `${name} поперхнулся, и за это ${enemyName} с испугу приложил прямой удар коленом в лоб врага. ${count} урона [${current}/${total}]`,
+        `${name} поперхнулся, но в это время ${enemyName} нехотя раздробил кулаком \<вырезанно цензурой\> противника. ${count} урона [${current}/${total}]`,
+        `${name} удивился, а ${enemyName} пошатнувшись влепил подлый удар. ${count} урона [${current}/${total}]`,
+        `${name} высморкался, но неожиданно ${enemyName} провел дробящий удар. ${count} урона [${current}/${total}]`,
+        `${name} пошатнулся, и внезапно наглый ${enemyName} беспричинно ударил в ногу противника. ${count} урона [${current}/${total}]`,
+        `${name} расстроился, как вдруг, неожиданно ${enemyName} случайно влепил стопой в живот соперника. ${count} урона [${current}/${total}]`,
+        `${name} пытался что-то сказать, но вдруг, неожиданно ${enemyName} со скуки, разбил бровь сопернику. ${count} урона [${current}/${total}]`
     ];
 
     return logs [random(logs.length) -1];
 }
-
-init();
