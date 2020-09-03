@@ -22,37 +22,21 @@ player1.attacks.forEach(item => {
     const $btn = document.createElement('button');
     $btn.classList.add('button');
     $btn.innerText = item.name;
+    const clickButton = buttonClick (item.maxCount, $btn);
+    $btn.addEventListener('click', () => {
+        console.log('Click button ', $btn.innerText);
+        clickButton();
+        player1.changeHP(random(60, 20), function (count) {
+            console.log('Some change after change HP', count);
+            console.log(generateLog(player1, player2, count));
+        });
+        player2.changeHP(random(60, 20));
+
+    })
+
+    // player1Kick(player1, player2, count);
+
     $control.appendChild($btn);
 })
-
-function $getElById(id) {
-    return document.getElementById(id);
-}
-
-const $btn = $getElById('btn-kick');
-const $btn_enemy = $getElById('btn-kick-enemy');
-
-
-const bash = buttonClick(7, $btn);
-const second = buttonClick(5, $btn_enemy);
-
-
-$btn.addEventListener('click', () => {
-    bash();
-    player1.changeHP(random(60, 20), function (count) {
-        console.log('Some change after change HP', count);
-        console.log(generateLog(player1, player2, count));
-    });
-    player2.changeHP(random(60, 20));
-    player1Kick(player1, player2, count);
-});
-
-
-$btn_enemy.addEventListener('click', function () {
-    player1.changeHP(random(60, 20));
-    player2.changeHP(random(35));
-    second();
-    player2Kick(player, player2, count);
-});
 
 
